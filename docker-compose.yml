@@ -1,0 +1,56 @@
+#version: "3.8"  
+
+services:
+
+  reverse-proxy:  # Service du reverse proxy NGINX
+    image: nginx:alpine  # Image légère de NGINX (optimisée)
+    container_name: nginx-proxy
+    volumes:
+      # Montage en lecture seule du fichier de configuration NGINX personnalisé
+      - ./reverse-proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      # Redirection du port 80 de l’hôte vers le conteneur
+      - "8080:80"
+    depends_on:
+      # Le reverse proxy attend le démarrage de ces services avant de se lancer
+      - appli1-simpleco
+      - appli2-arise
+      - appli3-estiprojback
+      - appli4-estiamrh-front
+
+  appli1-simpleco:  # Application HTML statique (port 80)
+    build: ./appli1-simpleco  # Construction à partir du Dockerfile situé dans ce dossier
+    container_name: app1
+    expose:
+      - "80"  # Port exposé pour la communication entre conteneurs (pas mappé à l'hôte)
+
+  appli2-arise:  # Application React + Vite (port 5173 --) 4173)
+    build: ./appli2-arise
+    container_name: app2
+    expose:
+      - "4173"
+
+  appli3-estiprojback:  # Backend Node.js (port 8000)
+    build: ./appli3-estiprojback
+    container_name: app3
+    expose:
+      - "8000"
+
+  appli4-estiamrh-front:
+    build: ./appli4-estiamrh-front
+    container_name: app4
+    # ports:
+    #   - "3000:3000"
+    expose:
+      - "3000"
+    depends_on:
+      - appli3-estiprojback
+    command: ["wait-for.sh", "appli3-estiprojback:8000", "--", "npm", "start"]
+
+  appli5-ecoresp:  # App React + Vite (port 5173) exposée directement au navigateur
+    build: ./appli5-ecoresp
+    container_name: app5
+    ports:
+      - "5173:4173"  # Mapping vers l'hôte (accessible directement via http://localhost:5173)
+
+  
