@@ -5,7 +5,7 @@
 ## 📄 Description
 Ce projet a été réalisé dans le cadre du module DevSecOps à l'ESTIAM Paris. Il consiste à déployer une stack multi-applications via Docker Compose, en respectant les consignes suivantes :
 
-- Déployer 4 applications (dont 1 statique HTML)
+- Déployer 5 applications (dont 1 statique HTML)
 - Mettre en place un reverse proxy (Nginx) pour 3 d'entre elles
 - Laisser une application exposée directement (pour pentest)
 - Utiliser un seul fichier `docker-compose.yml`
