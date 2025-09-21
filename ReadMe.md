@@ -94,5 +94,5 @@ docker compose down
 
 ## 📖 Auteur
 **Celaire OKA**  
-Projet réalisé dans le cadre du module E5 DevSecOps - ESTIAM Paris
+Projet réalisé dans le cadre du Projet pédagogique WMD E5 - ESTIAM Paris
 
